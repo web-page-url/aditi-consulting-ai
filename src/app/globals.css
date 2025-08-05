@@ -14,7 +14,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #1a1b23;
     --foreground: #ededed;
   }
 }
@@ -22,5 +22,69 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #475569;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+/* Smooth transitions */
+* {
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+/* Purple gradient background */
+.gradient-purple {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.gradient-purple-light {
+  background: linear-gradient(135deg, #a855f7 0%, #3b82f6 100%);
+}
+
+/* Dark theme gradient */
+.dark .gradient-purple {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+}
+
+/* Dashed border animation */
+.dashed-border {
+  border: 2px dashed #d1d5db;
+  border-radius: 12px;
+  background-image: url("data:image/svg+xml,%3csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3e%3cdefs%3e%3cpattern id='a' patternUnits='userSpaceOnUse' width='20' height='20'%3e%3cg fill='none' stroke='%23d1d5db' stroke-width='2'%3e%3cpath d='m0 10h20M10 0v20'/%3e%3c/g%3e%3c/pattern%3e%3c/defs%3e%3crect width='100' height='100' fill='url(%23a)'/%3e%3c/svg%3e");
+}
+
+.dashed-border:hover {
+  border-color: #8b5cf6;
+}
+
+.dark .dashed-border {
+  border-color: #4b5563;
+}
+
+.dark .dashed-border:hover {
+  border-color: #8b5cf6;
 }
