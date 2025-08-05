@@ -35,7 +35,7 @@ export default function ChatInterface({ pdfText, apiKey, fileName }: ChatInterfa
       const welcomeMessage: Message = {
         id: Date.now().toString(),
         type: 'bot',
-        content: `Hello! I've successfully processed your PDF "${fileName}". I can now answer questions about its content. What would you like to know?`,
+        content: `Welcome to Aditi Consulting AI! I've successfully analyzed your document "${fileName}". I'm ready to provide intelligent insights and answer questions about its content. How can I assist you today?`,
         timestamp: new Date(),
       };
       setMessages([welcomeMessage]);
@@ -177,10 +177,10 @@ export default function ChatInterface({ pdfText, apiKey, fileName }: ChatInterfa
       <div className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg border border-gray-200 dark:border-gray-700 text-center min-h-[500px] flex flex-col justify-center">
         <Bot className="w-16 h-16 text-gray-400 mx-auto mb-4" />
         <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-          Ready to Chat!
+          Aditi Consulting AI Ready!
         </h3>
         <p className="text-gray-600 dark:text-gray-400">
-          Upload a PDF document to start asking questions about its content.
+          Upload a PDF document to start intelligent document analysis and get AI-powered insights.
         </p>
       </div>
     );
@@ -194,10 +194,10 @@ export default function ChatInterface({ pdfText, apiKey, fileName }: ChatInterfa
           <Bot className="w-6 h-6 text-blue-600 dark:text-blue-400" />
           <div>
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-              PDF Chat Assistant
+              Aditi Consulting AI
             </h3>
             <p className="text-sm text-gray-500 dark:text-gray-400">
-              Discussing: {fileName}
+              Analyzing: {fileName}
             </p>
           </div>
         </div>

@@ -31,11 +31,10 @@ export default function Home() {
             {/* Hero Section */}
             <div className="text-center">
               <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-                Chat with Your PDF Documents
+                Aditi Consulting AI
               </h2>
               <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-4">
-                Upload any PDF document and ask questions about its content.
-                Powered by OpenAI's advanced language models.
+                Advanced AI-powered document analysis platform. Upload PDFs and get intelligent insights using cutting-edge artificial intelligence technology.
               </p>
               <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 max-w-2xl mx-auto">
                 <p className="text-sm text-blue-800 dark:text-blue-200">

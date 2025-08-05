@@ -1,0 +1,27 @@
+{
+  "name": "Aditi Consulting AI - Intelligent Document Analysis",
+  "short_name": "Aditi AI",
+  "description": "Advanced AI-powered document analysis platform. Upload PDFs and get intelligent insights using cutting-edge artificial intelligence technology.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3b82f6",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/aditi.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/aditi.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "categories": ["productivity", "business", "utilities"],
+  "lang": "en",
+  "dir": "ltr"
+}
