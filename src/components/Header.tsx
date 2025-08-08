@@ -14,7 +14,7 @@ export default function Header() {
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg overflow-hidden bg-white dark:bg-gray-700 p-1">
               <Image
-                src="/aditi.png"
+                src="/aditi-logo-2.0.png"
                 alt="Aditi Consulting Logo"
                 width={32}
                 height={32}

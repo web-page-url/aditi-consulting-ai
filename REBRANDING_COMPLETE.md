@@ -12,7 +12,7 @@ Your application has been completely rebranded from "PDF Chat AI" to **"Aditi Co
 - **Description**: "Advanced AI-powered document analysis platform"
 
 ### **2. Visual Branding** ✅
-- **Logo**: Aditi Consulting logo (`aditi.png`) now used throughout
+- **Logo**: Aditi Consulting logo (`aditi-logo-2.0.png`) now used throughout
 - **Favicon**: Updated to use Aditi logo instead of default Next.js favicon
 - **Header**: Professional header with Aditi logo and new branding
 - **Colors**: Maintained professional blue/purple gradient theme

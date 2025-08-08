@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import Header from '@/components/Header';
 import ApiKeyInput from '@/components/ApiKeyInput';
 import PdfUpload from '@/components/PdfUpload';
@@ -30,6 +31,20 @@ export default function Home() {
           <div className="space-y-8">
             {/* Hero Section */}
             <div className="text-center">
+              {/* Aditi Logo */}
+              <div className="flex justify-center mb-6">
+                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700 p-3 sm:p-4">
+                  <Image
+                    src="/aditi-logo-2.0.png"
+                    alt="Aditi Consulting Logo"
+                    width={80}
+                    height={80}
+                    className="w-full h-full object-contain"
+                    priority
+                  />
+                </div>
+              </div>
+              
               <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
                 Aditi Consulting AI
               </h2>

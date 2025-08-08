@@ -121,8 +121,8 @@ export default function PdfUpload({ onPdfUpload }: PdfUploadProps) {
             {!uploadedFile ? (
                 <div
                     className={`relative border-2 border-dashed rounded-lg p-8 text-center transition-colors ${dragActive
-                            ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/20'
-                            : 'border-gray-300 dark:border-gray-600 hover:border-purple-400 dark:hover:border-purple-500'
+                        ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/20'
+                        : 'border-gray-300 dark:border-gray-600 hover:border-purple-400 dark:hover:border-purple-500'
                         }`}
                     onDragEnter={handleDrag}
                     onDragLeave={handleDrag}

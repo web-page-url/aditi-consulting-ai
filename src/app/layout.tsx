@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     siteName: "Aditi Consulting AI",
     images: [
       {
-        url: "/aditi.png",
+        url: "/aditi-logo-2.0.png",
         width: 1200,
         height: 630,
         alt: "Aditi Consulting AI - Intelligent Document Analysis",
@@ -43,20 +43,20 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Aditi Consulting AI - Intelligent Document Analysis",
     description: "Advanced AI-powered document analysis and chat platform. Upload PDFs and get intelligent insights using cutting-edge AI technology.",
-    images: ["/aditi.png"],
+    images: ["/aditi-logo-2.0.png"],
     creator: "@AditiConsulting", // Replace with your actual Twitter handle
   },
   
   // Favicon and icons
   icons: {
     icon: [
-      { url: "/aditi.png", sizes: "32x32", type: "image/png" },
-      { url: "/aditi.png", sizes: "16x16", type: "image/png" },
+      { url: "/aditi-logo-2.0.png", sizes: "32x32", type: "image/png" },
+      { url: "/aditi-logo-2.0.png", sizes: "16x16", type: "image/png" },
     ],
     apple: [
-      { url: "/aditi.png", sizes: "180x180", type: "image/png" },
+      { url: "/aditi-logo-2.0.png", sizes: "180x180", type: "image/png" },
     ],
-    shortcut: "/aditi.png",
+    shortcut: "/aditi-logo-2.0.png",
   },
   
   // Additional metadata
@@ -89,8 +89,8 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link rel="manifest" href="/manifest.json" />
-        <link rel="icon" href="/aditi.png" type="image/png" />
-        <link rel="apple-touch-icon" href="/aditi.png" />
+        <link rel="icon" href="/aditi-logo-2.0.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/aditi-logo-2.0.png" />
         <meta name="theme-color" content="#3b82f6" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
