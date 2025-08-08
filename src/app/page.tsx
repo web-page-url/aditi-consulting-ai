@@ -7,6 +7,7 @@ import ApiKeyInput from '@/components/ApiKeyInput';
 import PdfUpload from '@/components/PdfUpload';
 import ChatInterface from '@/components/ChatInterface';
 import { ThemeProvider } from '@/components/ThemeProvider';
+import { VoiceProvider } from '@/components/VoiceProvider';
 
 export default function Home() {
   const [apiKey, setApiKey] = useState('');
@@ -24,7 +25,8 @@ export default function Home() {
 
   return (
     <ThemeProvider>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
+      <VoiceProvider>
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
         <Header />
         
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -175,7 +177,8 @@ export default function Home() {
             )}
           </div>
         </main>
-      </div>
+        </div>
+      </VoiceProvider>
     </ThemeProvider>
   );
 }

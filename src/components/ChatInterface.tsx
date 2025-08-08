@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Send, Bot, User, Loader2 } from 'lucide-react';
+import { Send, Bot, User, Loader2, Play, Pause, Square, Volume2 } from 'lucide-react';
+import { useVoiceContext } from './VoiceProvider';
 
 interface Message {
   id: string;
@@ -20,7 +21,11 @@ export default function ChatInterface({ pdfText, apiKey, fileName }: ChatInterfa
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [playingMessageId, setPlayingMessageId] = useState<string | null>(null);
+  const [localIsPlaying, setLocalIsPlaying] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const { speak, stop, isSupported, isPlaying, settings } = useVoiceContext();
+  const currentUtteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -41,6 +46,73 @@ export default function ChatInterface({ pdfText, apiKey, fileName }: ChatInterfa
       setMessages([welcomeMessage]);
     }
   }, [pdfText, fileName]);
+
+  // Custom voice functions that work independently
+  const playVoice = (text: string, messageId: string) => {
+    // Stop any current speech
+    if (window.speechSynthesis.speaking) {
+      window.speechSynthesis.cancel();
+    }
+
+    // Create new utterance
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 0.9;
+    utterance.pitch = 1;
+    utterance.volume = 0.7;
+
+    // Select the best female voice available
+    const voices = window.speechSynthesis.getVoices();
+    const femaleVoice = voices.find(voice => 
+      voice.lang.startsWith('en') && (
+        voice.name.toLowerCase().includes('female') ||
+        voice.name.toLowerCase().includes('woman') ||
+        voice.name.toLowerCase().includes('samantha') ||
+        voice.name.toLowerCase().includes('karen') ||
+        voice.name.toLowerCase().includes('susan') ||
+        voice.name.toLowerCase().includes('victoria') ||
+        voice.name.toLowerCase().includes('zira') ||
+        voice.name.toLowerCase().includes('hazel') ||
+        voice.name.toLowerCase().includes('google uk english female') ||
+        voice.name.toLowerCase().includes('microsoft zira') ||
+        voice.name.toLowerCase().includes('alex') === false // Exclude Alex (male)
+      )
+    ) || voices.find(voice => 
+      voice.lang.startsWith('en') && !voice.name.toLowerCase().includes('male')
+    ) || voices.find(voice => voice.lang.startsWith('en'));
+
+    if (femaleVoice) {
+      utterance.voice = femaleVoice;
+      console.log('Selected female voice:', femaleVoice.name);
+    }
+
+    // Set up event handlers
+    utterance.onstart = () => {
+      setPlayingMessageId(messageId);
+      setLocalIsPlaying(true);
+    };
+
+    utterance.onend = () => {
+      setPlayingMessageId(null);
+      setLocalIsPlaying(false);
+    };
+
+    utterance.onerror = () => {
+      setPlayingMessageId(null);
+      setLocalIsPlaying(false);
+    };
+
+    // Store reference and speak
+    currentUtteranceRef.current = utterance;
+    window.speechSynthesis.speak(utterance);
+  };
+
+  const stopVoice = () => {
+    if (window.speechSynthesis.speaking) {
+      window.speechSynthesis.cancel();
+    }
+    setPlayingMessageId(null);
+    setLocalIsPlaying(false);
+  };
 
   const sendMessage = async () => {
     if (!input.trim() || isLoading || !apiKey) return;
@@ -114,10 +186,10 @@ export default function ChatInterface({ pdfText, apiKey, fileName }: ChatInterfa
 
   const handleQuickAction = (action: { label: string; query: string }) => {
     if (isLoading || !apiKey) return;
-    
+
     // Set the input to show the query
     setInput(action.query);
-    
+
     // Send the message immediately
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -142,34 +214,34 @@ export default function ChatInterface({ pdfText, apiKey, fileName }: ChatInterfa
         apiKey,
       }),
     })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Failed to get response');
-      }
-      return response.json();
-    })
-    .then(({ reply }) => {
-      const botMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        type: 'bot',
-        content: reply,
-        timestamp: new Date(),
-      };
-      setMessages(prev => [...prev, botMessage]);
-    })
-    .catch(error => {
-      console.error('Error sending message:', error);
-      const errorMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        type: 'bot',
-        content: 'Sorry, I encountered an error while processing your request. Please try again.',
-        timestamp: new Date(),
-      };
-      setMessages(prev => [...prev, errorMessage]);
-    })
-    .finally(() => {
-      setIsLoading(false);
-    });
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to get response');
+        }
+        return response.json();
+      })
+      .then(({ reply }) => {
+        const botMessage: Message = {
+          id: (Date.now() + 1).toString(),
+          type: 'bot',
+          content: reply,
+          timestamp: new Date(),
+        };
+        setMessages(prev => [...prev, botMessage]);
+      })
+      .catch(error => {
+        console.error('Error sending message:', error);
+        const errorMessage: Message = {
+          id: (Date.now() + 1).toString(),
+          type: 'bot',
+          content: 'Sorry, I encountered an error while processing your request. Please try again.',
+          timestamp: new Date(),
+        };
+        setMessages(prev => [...prev, errorMessage]);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   if (!pdfText) {
@@ -201,7 +273,7 @@ export default function ChatInterface({ pdfText, apiKey, fileName }: ChatInterfa
             </p>
           </div>
         </div>
-        
+
         {/* Quick Action Buttons */}
         <div className="flex flex-wrap gap-2">
           {quickActions.map((action, index) => (
@@ -230,22 +302,56 @@ export default function ChatInterface({ pdfText, apiKey, fileName }: ChatInterfa
                 <Bot className="w-4 h-4 text-white" />
               </div>
             )}
-            
+
             <div
-              className={`max-w-[80%] p-3 rounded-lg ${
-                message.type === 'user'
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white'
-              }`}
+              className={`max-w-[80%] p-3 rounded-lg ${message.type === 'user'
+                ? 'bg-blue-600 text-white'
+                : 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white'
+                }`}
             >
-              <p className="whitespace-pre-wrap">{message.content}</p>
-              <p className={`text-xs mt-1 ${
-                message.type === 'user' 
-                  ? 'text-blue-100' 
+              <div className="flex items-start justify-between gap-2">
+                <p className="whitespace-pre-wrap flex-1">{message.content}</p>
+
+                {/* Voice Control Button for Bot Messages */}
+                {message.type === 'bot' && isSupported && (
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      const isCurrentlyPlaying = playingMessageId === message.id;
+
+                      if (isCurrentlyPlaying) {
+                        // If currently playing, stop it
+                        stopVoice();
+                      } else {
+                        // Start playing this message (will auto-stop any other)
+                        playVoice(message.content, message.id);
+                      }
+                    }}
+                    className="flex-shrink-0 p-1.5 rounded-lg bg-blue-100 dark:bg-blue-900/30 hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors"
+                    title={
+                      playingMessageId === message.id
+                        ? "Stop playing"
+                        : "Play message"
+                    }
+                  >
+                    {playingMessageId === message.id ? (
+                      <Square className="w-4 h-4 text-red-600 dark:text-red-400" />
+                    ) : (
+                      <Play className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                    )}
+                  </button>
+                )}
+              </div>
+
+              <div className="flex items-center justify-between mt-1">
+                <p className={`text-xs ${message.type === 'user'
+                  ? 'text-blue-100'
                   : 'text-gray-500 dark:text-gray-400'
-              }`}>
-                {message.timestamp.toLocaleTimeString()}
-              </p>
+                  }`}>
+                  {message.timestamp.toLocaleTimeString()}
+                </p>
+              </div>
             </div>
 
             {message.type === 'user' && (
@@ -255,7 +361,7 @@ export default function ChatInterface({ pdfText, apiKey, fileName }: ChatInterfa
             )}
           </div>
         ))}
-        
+
         {isLoading && (
           <div className="flex gap-3 justify-start">
             <div className="w-8 h-8 rounded-full bg-blue-600 dark:bg-blue-500 flex items-center justify-center flex-shrink-0">
@@ -266,7 +372,7 @@ export default function ChatInterface({ pdfText, apiKey, fileName }: ChatInterfa
             </div>
           </div>
         )}
-        
+
         <div ref={messagesEndRef} />
       </div>
 
