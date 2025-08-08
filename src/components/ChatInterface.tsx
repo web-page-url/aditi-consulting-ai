@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import Image from 'next/image';
 import { Send, Bot, User, Loader2, Play, Pause, Square, Volume2 } from 'lucide-react';
 import { useVoiceContext } from './VoiceProvider';
 
@@ -62,7 +63,7 @@ export default function ChatInterface({ pdfText, apiKey, fileName }: ChatInterfa
 
     // Select the best female voice available
     const voices = window.speechSynthesis.getVoices();
-    const femaleVoice = voices.find(voice => 
+    const femaleVoice = voices.find(voice =>
       voice.lang.startsWith('en') && (
         voice.name.toLowerCase().includes('female') ||
         voice.name.toLowerCase().includes('woman') ||
@@ -76,7 +77,7 @@ export default function ChatInterface({ pdfText, apiKey, fileName }: ChatInterfa
         voice.name.toLowerCase().includes('microsoft zira') ||
         voice.name.toLowerCase().includes('alex') === false // Exclude Alex (male)
       )
-    ) || voices.find(voice => 
+    ) || voices.find(voice =>
       voice.lang.startsWith('en') && !voice.name.toLowerCase().includes('male')
     ) || voices.find(voice => voice.lang.startsWith('en'));
 
@@ -247,7 +248,15 @@ export default function ChatInterface({ pdfText, apiKey, fileName }: ChatInterfa
   if (!pdfText) {
     return (
       <div className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg border border-gray-200 dark:border-gray-700 text-center min-h-[500px] flex flex-col justify-center">
-        <Bot className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+        <div className="w-16 h-16 mx-auto mb-4 rounded-xl bg-white dark:bg-gray-700 p-2 shadow-lg">
+          <Image
+            src="/aditi-logo-2.0.png"
+            alt="Aditi Consulting AI"
+            width={48}
+            height={48}
+            className="w-full h-full object-contain"
+          />
+        </div>
         <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
           Aditi Consulting AI Ready!
         </h3>
@@ -263,7 +272,15 @@ export default function ChatInterface({ pdfText, apiKey, fileName }: ChatInterfa
       {/* Header */}
       <div className="p-4 border-b border-gray-200 dark:border-gray-700">
         <div className="flex items-center gap-3 mb-4">
-          <Bot className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+          <div className="w-6 h-6 rounded-lg bg-white dark:bg-gray-700 p-1 shadow-sm">
+            <Image
+              src="/aditi-logo-2.0.png"
+              alt="Aditi Consulting AI"
+              width={16}
+              height={16}
+              className="w-full h-full object-contain"
+            />
+          </div>
           <div>
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
               Aditi Consulting AI
@@ -298,8 +315,14 @@ export default function ChatInterface({ pdfText, apiKey, fileName }: ChatInterfa
             className={`flex gap-3 ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
           >
             {message.type === 'bot' && (
-              <div className="w-8 h-8 rounded-full bg-blue-600 dark:bg-blue-500 flex items-center justify-center flex-shrink-0">
-                <Bot className="w-4 h-4 text-white" />
+              <div className="w-8 h-8 rounded-full bg-white dark:bg-gray-700 flex items-center justify-center flex-shrink-0 p-1 shadow-sm">
+                <Image
+                  src="/aditi-logo-3.0.png"
+                  alt="Aditi Consulting AI"
+                  width={24}
+                  height={24}
+                  className="w-full h-full object-contain"
+                />
               </div>
             )}
 
@@ -364,8 +387,14 @@ export default function ChatInterface({ pdfText, apiKey, fileName }: ChatInterfa
 
         {isLoading && (
           <div className="flex gap-3 justify-start">
-            <div className="w-8 h-8 rounded-full bg-blue-600 dark:bg-blue-500 flex items-center justify-center flex-shrink-0">
-              <Bot className="w-4 h-4 text-white" />
+            <div className="w-8 h-8 rounded-full bg-white dark:bg-gray-700 flex items-center justify-center flex-shrink-0 p-1 shadow-sm">
+              <Image
+                src="/aditi-logo-3.0.png"
+                alt="Aditi Consulting AI"
+                width={24}
+                height={24}
+                className="w-full h-full object-contain"
+              />
             </div>
             <div className="bg-gray-100 dark:bg-gray-700 p-3 rounded-lg">
               <Loader2 className="w-5 h-5 animate-spin text-gray-600 dark:text-gray-400" />
